@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+function alertFunc()
+{
+	flag='{{flag}}'
+	if(flag==0)
+		alert('Wrong recipe! One or more fields might be wrong')
+	if(flag==2)
+		alert('Recipe name already exists! Change recipe name')
+}
+</script>
+  <link rel='stylesheet' type='text/css' href='static/style.css'/>
+  <script type="text/javascript" src="static/script.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="bclr" onload="alertFunc()">
+<div class="sidebar" id="mySidebar">
+  <br> <br>  <br> <br>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="test_recipe_page.html" style="color:white"><i class="fa fa-pencil-square-o"></i>Scrape Reviews</a>
+  <br> <br>
+
+</div>
+<div class="main" id="main">
+<button  id="openNav"  class="openbtn" onclick="openNav()" style="display:none"><i class="fa fa-bars"></i></button>
+<button  id="closeNav"  class="openbtn" onclick="closeNav()"><i class="fa fa-bars"></i></button>
+<div class="modal-content" >
+    <div class="container">
+    <center><h1>Please fill in this form to create recipe.</h1></center>
+    <br><br>
+
+<form action="/test_recipe" method="post">
+    <b>Main Page Url:</b><br>
+  <input type="text" name="page_main_url" value="{{request.form['page_main_url']}}" required><br>
+    <b>Current Page Url:</b><br>
+  <input type="text" name="page_url" value="{{request.form['page_url']}}" required><br>
+  <b>Main Element type:</b><br>
+ <input type="text" name="main_tag" value="{{request.form['main_tag']}}" required><br>
+    <b>Main Class Name:</b><br>
+  <input type="text" name="main_class_name" value="{{request.form['main_class_name']}}" required><br>
+  <b>Sub Element type:</b><br>
+  <input type="text" name="sub_tag" value="{{request.form['sub_tag']}}" required><br>
+    <b>Sub Class Name:</b><br>
+  <input type="text" name="sub_class_name" value="{{request.form['sub_class_name']}}" required><br>
+
+  <b>Review Title Element type:</b><br>
+  <input type="text" name="review_title_tag" value="{{request.form['review_title_tag']}}" required><br>
+
+
+  <b>Review Title Class Name:</b><br>
+  <input type="text" name="review_title_class" value="{{request.form['review_title_class']}}" required><br>
+
+  <b>Review description Element type:</b><br>
+  <input type="text" name="pd_tag" value="{{request.form['pd_tag']}}" required><br>
+  <b>Review description Class Name:</b><br>
+  <input type="text" name="pd_class" value="{{request.form['pd_class']}}" required><br>
+<b>Navigation Element type:</b><br>
+<input type="text" name="nav_tag" value="{{request.form['nav_tag']}}" required><br>
+<b>Navigation Class Name:</b><br>
+<input type="text" name="nav_tag_class" value="{{request.form['nav_tag_class']}}" required><br>
+    <b>Page Limit:</b><br>
+<input type="text" name="page_limit" value="{{request.form['page_name']}}" required><br>
+
+<input type="submit" value="Test recipe">
+</form>
+
+</div>
+</div>
+</div>
+
+</body>
+</html>
