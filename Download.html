@@ -12,8 +12,12 @@
 <div class="sidebar" id="mySidebar">
   <br> <br>  <br> <br>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-  <a href="test_recipe_page.html" style="color:white"><i class="fa fa-pencil-square-o"></i>Scrape Reviews</a>
-        <a href="download"><i class="fa fa-pencil-square-o"></i>Download</a>
+                <br><br>
+        <a href="/" ><i class="fa fa-pencil-square-o"></i>Home</a>
+                <br><br>
+  <a href="test_recipe_page.html" ><i class="fa fa-pencil-square-o"></i>Scrape Reviews</a>
+    <br><br>
+        <a href="download" style="color:white"><i class="fa fa-pencil-square-o"></i>Download</a>
   <br><br>
 </div>
 <div class="main" id="main">
@@ -21,12 +25,17 @@
   <button  id="closeNav"  class="openbtn" onclick="closeNav()"><i class="fa fa-bars"></i></button>
 <div class="modal-content" >
     <div class="container">
-	<p> <center>There are the file availiable in download directory</center> </p>
-        <p> <center>Please Click to Download</center> </p>
-         {% for i in lof %}
-        <center><a href={{rf + i}} style="color:Black"><i class="fa fa-pencil-square-o"></i>{{i}}</a></center>
+        <p><h3> <center>There are the file availiable in download directory</center> </h3></p>
+        <p> <h3><center>Please Click to Download</center></h3> </p>
+        <p><h5><center>(Note: if there are no files below please start scraping)</center> </h5> </p>
+        <center>
+        <TABLE border="1">
+            <tr><td width="600"><h3>File Name</h3></td><td><h3>Link</h3></td></tr>
+        {% for i in lof %}
+            <tr><td width="600"><i class="fa fa-pencil-square-o">{{i}}</i></td><td><a href={{rf + i}} style="color:Black"><input type="button" value="Download"></a></td></tr>
         {% endfor %}
-</div>
+        </TABLE></center>
+    </div>
 </div>
 </div>
 </body>
