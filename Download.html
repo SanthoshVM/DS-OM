@@ -13,7 +13,7 @@
   <br> <br>  <br> <br>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
   <a href="test_recipe_page.html" style="color:white"><i class="fa fa-pencil-square-o"></i>Scrape Reviews</a>
-      <a href="download"><i class="fa fa-pencil-square-o"></i>Download</a>
+        <a href="download"><i class="fa fa-pencil-square-o"></i>Download</a>
   <br><br>
 </div>
 <div class="main" id="main">
@@ -21,7 +21,11 @@
   <button  id="closeNav"  class="openbtn" onclick="closeNav()"><i class="fa fa-bars"></i></button>
 <div class="modal-content" >
     <div class="container">
-	<p> <center>Reviews Scraped Successfully Check the {{fl_name}} for Output</center> </p>
+	<p> <center>There are the file availiable in download directory</center> </p>
+        <p> <center>Please Click to Download</center> </p>
+         {% for i in lof %}
+        <center><a href={{rf + i}} style="color:Black"><i class="fa fa-pencil-square-o"></i>{{i}}</a></center>
+        {% endfor %}
 </div>
 </div>
 </div>

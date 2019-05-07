@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-
+import os
 import module_review as mr
 import verify_mr as vmr
 
@@ -12,6 +12,15 @@ app.secret_key = 'some_secret'
 @app.route('/')
 def home():
     return render_template('side_bar_page.html')
+
+@app.route('/download')
+def download():
+    path = os.getcwd() + "/static/Display"
+    list_of_files = []
+    rel_path = "/static/Display/"
+    for filename in os.listdir(path):
+        list_of_files.append(filename)
+    return render_template('Download.html',lof=list_of_files,rf=rel_path)
 
 @app.route('/test_recipe_page.html')
 def test_recipe_page():
@@ -45,7 +54,7 @@ def test_recipe():
     ans = mr.getproductlinks(main_url,url,tag,tag_class,sub_tag,sub_tag_class,review_title_tag,review_title_class,pd_tag,pd_class,nav_tag,nav_tag_class,int(page_limit))
     # print(ans)
 
-    with open(file_name, 'w+') as csvFile:
+    with open('static/Display/'+file_name, 'w+') as csvFile:
         writer = csv.writer(csvFile, delimiter=",")
         for i in ans:
             try:
