@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request
 
 import module_review as mr
+import verify_mr as vmr
 
 import csv
-import json
-
 
 app = Flask(__name__,template_folder='./')
 app.jinja_env.filters['zip'] = zip
@@ -34,15 +33,19 @@ def test_recipe():
     nav_tag=(request.form['nav_tag']).strip()
     nav_tag_class=(request.form['nav_tag_class']).strip()
     page_limit = (request.form['page_limit']).strip()
+    file_name = (request.form['file_name']).strip()
 
     param_list=[main_url,url,tag,tag_class,sub_tag,sub_tag_class,review_title_tag,review_title_class,pd_tag,pd_class,nav_tag,nav_tag_class,page_limit]
 
     print(param_list)
 
-    ans = mr.getproductlinks(main_url,url,tag,tag_class,sub_tag,sub_tag_class,review_title_tag,review_title_class,pd_tag,pd_class,nav_tag,nav_tag_class,page_limit)
+    verify = vmr.getproductlinks(main_url,url,tag,tag_class,sub_tag,sub_tag_class,review_title_tag,review_title_class,pd_tag,pd_class,nav_tag,nav_tag_class,int(page_limit))
+    if verify != 0:
+        return render_template('error_page.html')
+    ans = mr.getproductlinks(main_url,url,tag,tag_class,sub_tag,sub_tag_class,review_title_tag,review_title_class,pd_tag,pd_class,nav_tag,nav_tag_class,int(page_limit))
     # print(ans)
 
-    with open('review.csv', 'w') as csvFile:
+    with open(file_name, 'w+') as csvFile:
         writer = csv.writer(csvFile, delimiter=",")
         for i in ans:
             try:
@@ -54,7 +57,7 @@ def test_recipe():
             except:
                 print("Decode Error")
     csvFile.close()
-    return render_template('create_recipe_page_1.html')
+    return render_template('create_recipe_page_1.html',fl_name=file_name)
 
 
 

@@ -2,14 +2,7 @@
 <html lang="en">
 <head>
 <script>
-function alertFunc()
-{
-	flag='{{flag}}'
-	if(flag==0)
-		alert('Wrong recipe! One or more fields might be wrong')
-	if(flag==2)
-		alert('Recipe name already exists! Change recipe name')
-}
+
 </script>
   <link rel='stylesheet' type='text/css' href='static/style.css'/>
   <script type="text/javascript" src="static/script.js"></script>
@@ -63,8 +56,10 @@ function alertFunc()
 <input type="text" name="nav_tag_class" value="{{request.form['nav_tag_class']}}" required><br>
     <b>Page Limit:</b><br>
 <input type="text" name="page_limit" value="{{request.form['page_name']}}" required><br>
+    <b>Output File Name:(Please add .csv extension)</b><br>
+<input type="text" name="file_name" value="{{request.form['file_name']}}" required><br>
 
-<input type="submit" value="Test recipe">
+<input type="submit" value="Test and Execute recipe">
 </form>
 
 </div>

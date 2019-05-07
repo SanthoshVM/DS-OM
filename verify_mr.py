@@ -5,6 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
 
+condit = 2
+
 
 def navigate_page(main_url, page_url, nav_tag, nav_tag_class):
     url_s = str(page_url)
@@ -25,8 +27,10 @@ def navigate_page(main_url, page_url, nav_tag, nav_tag_class):
         for a in paragraph("a"):
             if "http" in a['href']:
                 l.append(a['href'])
+                break
             if "http" not in a['href'] and a['href']:
                 l.append(main_url + a['href'])
+                break
     driver.close()
     return l
 
@@ -64,6 +68,7 @@ def getproductlink(main_url, page_url, tag, tag_class, sub_tag, sub_tag_class, r
         print("Tag/link not found. Probable tag/class-mismatch error.")
         driver.close()
     try:
+        global condit
         l = []
         if link:
             for i in link:
@@ -72,15 +77,19 @@ def getproductlink(main_url, page_url, tag, tag_class, sub_tag, sub_tag_class, r
                 if revt:
                     if revt[0].find('p'):
                         review.append(revt[0].find('p').text.strip())
+                        condit = condit - 1
                     else:
                         review.append(revt[0].text.strip())
+                        condit = condit - 1
                 revc = i.find_all(str(rc_tag), {"class": str(rc_class)})
                 if revc:
                     if revc[0].find('p'):
                         review.append(revc[0].find('p').text.strip().rstrip('READ MORE'))
+                        condit = condit - 1
                     else:
                         review.append(revc[0].text.strip().rstrip('READ MORE'))
-                l.append(review[0] + " " + review[1])
+                        condit = condit - 1
+                break
 
     except Exception as error:
         print(error)
@@ -107,6 +116,7 @@ def getproductlinks(main_url, page_url, tag, tag_class, sub_tag, sub_tag_class, 
     # print(latest_links)
     repeat_cond = []
     ct = 1
+    pg_lim = 1
     while prev_list[-1] != latest_links[-1]:
         repeat_cond = prev_list
         prev_list = latest_links
@@ -129,17 +139,16 @@ def getproductlinks(main_url, page_url, tag, tag_class, sub_tag, sub_tag_class, 
     # print(len(all_links))
     all_links = list(set(all_links))
     print(all_links)
-    paglim = 0
+
     product_links = []
     for link in all_links:
-        if paglim == pg_lim:
-            break
         product_links.extend(
             getproductlink(main_url, link, tag, tag_class, sub_tag, sub_tag_class, rt_tag, rt_class, rc_tag, rc_class))
-        paglim = paglim + 1
-    return product_links
+        break
+    return condit
 
 '''
+#Flipkart
 main="https://www.flipkart.com"
 url=str("https://www.flipkart.com/taparia-ws-05-diagonal-plier/product-reviews/itmf4fbr6npdzwvh?pid=PLIF4FBRE6KHJHXR")
 tag=str("div")
@@ -152,23 +161,6 @@ review_cont_tag = "div"
 review_cont_class = "qwjRop"
 nav_tag = "nav"
 nav_class = "_1ypTlJ"
-
-ans = getproductlinks(main,url,tag,tag_c,sub_tag,sub_tag_class,review_title_tag,review_title_class,review_cont_tag,review_cont_class,nav_tag,nav_class,1)
-k = 0    
-#print(ans)
-
-with open('review.csv', 'w') as csvFile:
-    writer = csv.writer(csvFile,delimiter = ",")
-    for i in ans:
-        try:
-            writer.writerow([i])
-            print(k)
-            k = k + 1
-            print("Title + Cont = "+ i)
-            print(" ")
-        except :
-            print("Decode Error")
-csvFile.close()
 '''
 
 '''
@@ -186,24 +178,8 @@ review_cont_tag = "span"
 review_cont_class = "a-size-base review-text review-text-content"
 nav_tag = "ul"
 nav_class = "a-pagination"
-
-ans = getproductlinks(main,url,tag,tag_c,sub_tag,sub_tag_class,review_title_tag,review_title_class,review_cont_tag,review_cont_class,nav_tag,nav_class,1)
-k = 0    
-#print(ans)
-
-with open('review.csv', 'w') as csvFile:
-    writer = csv.writer(csvFile,delimiter = ",")
-    for i in ans:
-        try:
-            writer.writerow([i])
-            print(k)
-            k = k + 1
-            print("Title + Cont = "+ i)
-            print(" ")
-        except :
-            print("Decode Error")
-csvFile.close()
 '''
+
 
 '''
 #Snapdeal
@@ -220,24 +196,15 @@ review_cont_tag = "p"
 review_cont_class = ""
 nav_tag = "ul"
 nav_class = "LTblack"
+'''
 
-
-
-ans = getproductlinks(main,url,tag,tag_c,sub_tag,sub_tag_class,review_title_tag,review_title_class,review_cont_tag,review_cont_class,nav_tag,nav_class,1)
+'''
+ans,flag = getproductlinks(main,url,tag,tag_c,sub_tag,sub_tag_class,review_title_tag,review_title_class,review_cont_tag,review_cont_class,nav_tag,nav_class,1)
 k = 0    
 #print(ans)
 
-with open('review.csv', 'w') as csvFile:
-    writer = csv.writer(csvFile,delimiter = ",")
-    for i in ans:
-        try:
-            writer.writerow([i])
-            print(k)
-            k = k + 1
-            print("Title + Cont = "+ i)
-            print(" ")
-        except :
-            print("Decode Error")
-csvFile.close()
+print(flag)
 '''
+
+
 
